@@ -24,6 +24,8 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Graphify](#graphify)
   - [OmniRoute](#omniroute)
   - [Flint (local coding model)](#flint-local-coding-model)
+- [Social media and marketing](#social-media-and-marketing)
+  - [OpenReply](#openreply)
 - [Career](#career)
   - [AI Job Search](#ai-job-search)
 - [Guides and playbooks](#guides-and-playbooks)
@@ -308,6 +310,34 @@ A coding model from Recursive, built for agent work (investigating codebases, fi
 - **Hardware is the catch.** `rec` needs an Apple Silicon Mac (M4 Pro/Max or M5 Pro/Max) with at least 48 GB of memory and ~30 GB of disk space. The full checkpoint needs a datacenter GPU (H200/B300). A typical Windows laptop can't run it well. Check our machines before planning around it.
 - Recursive says it needs more guidance than the big closed models: split work into small subtasks with explicit instructions.
 - Benchmark numbers are Recursive's own. Review its changes like any other agent's.
+
+---
+
+## Social media and marketing
+
+### OpenReply
+
+**Link:** <https://github.com/diwenne/openreply> · **Demo:** <https://openreply.diwen.dev> · **Type:** Self-hosted web app · **Cost:** Free (MIT); hosting can fit free tiers · **Tags:** `instagram` `automation` `comment-to-dm` `manychat-alternative` `self-hosted`
+
+An open-source alternative to ManyChat for Instagram comment-to-DM. Set a keyword on a post or reel, and everyone who comments it gets a DM with your link within seconds, optionally plus a public reply. The same keywords can fire on DMs and Story replies. It also has tracked links with click stats, an optional "follow first" gate, `{username}` personalisation, several Instagram accounts and team roles in one dashboard, a DM inbox, send logs, and a Brazilian Portuguese interface.
+
+**Why it helps:** Per-contact pricing turns a viral reel into a bigger bill. With our own copy, like owning the vending machine instead of paying per snack, more comments don't cost more.
+
+**How to use:** You have to deploy your own copy; the demo site never sends DMs. It needs a public HTTPS URL, PostgreSQL, Redis, email for sign-in, an always-on worker process and an Instagram Business or Creator account. The author's stack uses free tiers (Vercel, Neon, Redis Cloud, an Oracle Cloud free VM for the worker, Resend). `docs/setup.md` in the repo has the full walkthrough and a ready-made prompt to have Claude Code guide the setup.
+
+```bash
+git clone https://github.com/diwenne/openreply.git
+cd openreply && npm install && cp .env.example .env   # fill in values per docs/setup.md
+docker-compose up -d && npm run db:generate && npm run db:migrate
+npm run dev      # web app + webhooks
+npm run worker   # second terminal: this is what sends the DMs
+```
+
+**Watch out:**
+- It uses Meta's official API (no scraping, no Instagram password), so Instagram's rules still apply: about 750 private replies per hour per account (overflow is queued) and a 24-hour messaging window.
+- You need your own Meta developer app, or the optional *paid* Zernio connection (the project's sponsor).
+- Coming from ManyChat: disconnect it first and give OpenReply control of conversations in Meta Business Suite, or DM buttons fail.
+- If comments arrive but no DM goes out, check that the worker is running.
 
 ---
 
