@@ -45,6 +45,8 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Muse for Small Business (Meta)](#muse-for-small-business-meta)
 - [Career](#career)
   - [AI Job Search](#ai-job-search)
+- [Finding more skills](#finding-more-skills)
+  - [Find Skills](#find-skills)
 - [Guides and playbooks](#guides-and-playbooks)
   - [How the Claude Code team does code review](#how-the-claude-code-team-does-code-review)
 
@@ -654,6 +656,31 @@ Then in Claude Code: `/setup` (reads your CV, LinkedIn export and documents, or 
 - **Keep it private.** `/setup` writes your personal data (contact details, work history, salary expectations) into tracked files. Use a private copy as above, never a public fork.
 - The built-in job-board searches are for Denmark. For Brazil we'd add our own boards (`/add-portal`); the fit and tailoring steps work in any country and language. Check each board's terms before searching it automatically.
 - Read every CV and letter before sending. Tailoring must never invent experience. The author was open with employers that they used it, and recommends the same.
+
+---
+
+## Finding more skills
+
+### Find Skills
+
+**Link:** <https://skills.sh/vercel-labs/skills/find-skills> · **GitHub:** <https://github.com/vercel-labs/skills> · **Type:** Agent skill (by Vercel) · **Cost:** Free · **Tags:** `claude-skill` `discovery` `skills-cli` `meta`
+
+A skill that searches the open agent-skills ecosystem for us. Tell it what we're working on (editing videos, writing emails, testing, design) and it checks the [skills.sh](https://skills.sh) leaderboard, searches with `npx skills find <query>`, and recommends the best matches by install count (it prefers 1,000+), source reputation (official sources like Vercel and Anthropic) and GitHub stars. Then it installs them with `npx skills add`. It's one of the most-installed skills on skills.sh (about 4.4 million installs).
+
+**Why it helps:** There are far too many skills to search by hand, so most people install a few and stop looking. This is like a librarian who fetches the book and puts it on your desk. Install it first and let it find the rest.
+
+**How to use:**
+
+```bash
+npx skills add https://github.com/vercel-labs/skills --skill find-skills
+```
+
+Then ask, for example, "find a skill for editing videos" or "is there a skill for writing cold emails?"
+
+**Watch out:**
+- **Skim each skill before it runs.** A skill is instructions (and sometimes scripts) that our agent will follow with our permissions. skills.sh shows security audit results per skill; prefer ones that pass and come from known authors.
+- Install count isn't quality. Check the entries in this list first, since they've already been vetted.
+- The skills CLI collects anonymous usage data. Set `DISABLE_TELEMETRY=1` to turn it off.
 
 ---
 
