@@ -24,6 +24,8 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Graphify](#graphify)
   - [OmniRoute](#omniroute)
   - [Flint (local coding model)](#flint-local-coding-model)
+- [Career](#career)
+  - [AI Job Search](#ai-job-search)
 - [Guides and playbooks](#guides-and-playbooks)
   - [How the Claude Code team does code review](#how-the-claude-code-team-does-code-review)
 
@@ -306,6 +308,35 @@ A coding model from Recursive, built for agent work (investigating codebases, fi
 - **Hardware is the catch.** `rec` needs an Apple Silicon Mac (M4 Pro/Max or M5 Pro/Max) with at least 48 GB of memory and ~30 GB of disk space. The full checkpoint needs a datacenter GPU (H200/B300). A typical Windows laptop can't run it well. Check our machines before planning around it.
 - Recursive says it needs more guidance than the big closed models: split work into small subtasks with explicit instructions.
 - Benchmark numbers are Recursive's own. Review its changes like any other agent's.
+
+---
+
+## Career
+
+### AI Job Search
+
+**Link:** <https://github.com/ai-job-search-dev/ai-job-search> · **Type:** Claude Code project (commands + skills + tools) · **Cost:** Free (MIT); needs a Claude subscription or API credits · **Tags:** `job-search` `resume` `cover-letter` `interview-prep` `claude-code`
+
+A job-application workflow built on Claude Code that you clone and fill with your own profile. It searches job boards, checks your fit for each posting first, then tailors the CV and writes a cover letter per job (one agent drafts, another reviews), preps you for interviews and tracks the results. The author, a geophysicist who lost their job in late 2025, used it for their own search: 69 tailored applications, 20 first interviews and one job offer.
+
+**Why it helps:** It swaps one generic resume sent everywhere for fewer, better-fitted applications. Apply less, land more.
+
+**How to use:** Needs Claude Code, Python 3.10+, [Bun](https://bun.sh) and LaTeX (`lualatex` and `xelatex`; MiKTeX works on Windows).
+
+```bash
+gh repo clone ai-job-search-dev/ai-job-search
+cd ai-job-search
+git remote rename origin upstream
+gh repo create ai-job-search --private --source=. --remote=origin --push
+python tools/install_portal_clis.py
+```
+
+Then in Claude Code: `/setup` (reads your CV, LinkedIn export and documents, or interviews you), `/scrape` to find jobs, `/rank` to shortlist, `/apply <job-url-or-pasted-text>` and `/interview`.
+
+**Watch out:**
+- **Keep it private.** `/setup` writes your personal data (contact details, work history, salary expectations) into tracked files. Use a private copy as above, never a public fork.
+- The built-in job-board searches are for Denmark. For Brazil we'd add our own boards (`/add-portal`); the fit and tailoring steps work in any country and language. Check each board's terms before searching it automatically.
+- Read every CV and letter before sending. Tailoring must never invent experience. The author was open with employers that they used it, and recommends the same.
 
 ---
 
