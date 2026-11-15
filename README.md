@@ -13,6 +13,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
 - [Design and UI](#design-and-ui)
   - [unslop](#unslop)
   - [Hallmark](#hallmark)
+  - [Awards skill (/awwwards and /jury)](#awards-skill-awwwards-and-jury)
 - [Coding agents and reverse engineering](#coding-agents-and-reverse-engineering)
   - [REA (Reverse Engineer Anything)](#rea-reverse-engineer-anything)
   - [OpenCode](#opencode)
@@ -125,6 +126,36 @@ npx skills add nutlope/hallmark -g
 Then `/hallmark <prompt>` for a new page, `/hallmark audit ./index.html` to only list the tells, or `/hallmark redesign ./src/app` to rebuild while keeping content and wiring. Plugin route: `/plugin marketplace add nutlope/hallmark`, then `/plugin install hallmark@hallmark`.
 
 **Watch out:** Needs Node 18+. The browser checks also need `npm i -g puppeteer-core` and Chrome; without them only the static checks run. It outputs self-contained HTML/CSS, so a framework app may need the result ported.
+
+### Awards skill (/awwwards and /jury)
+
+**Link:** <https://github.com/juliobsz/skills> · **Type:** Two agent skills (Claude Code, Codex, Cursor, Gemini CLI, OpenCode, Antigravity) · **Cost:** Free (MIT) · **Tags:** `web-design` `claude-skill` `frontend` `motion` `audit`
+
+`/awwwards` builds a whole, memorable website from one line ("make me a portfolio, my name is Julio"), acting as creative director, designer and developer at once:
+
+1. **Brief:** works out who the site is for and its job, and writes down any assumptions.
+2. **Concept:** drafts three ideas from different angles, scores them on originality and fit, and builds the best one around a single "signature moment".
+3. **Art direction:** palette, font pairing, grid and motion written to `DESIGN.md`, plus a test that throws out anything an average model would produce. Purple gradients, glassmorphism, three-card grids, fake logos and "elevate your brand" copy are banned unless the concept truly needs them.
+4. **Build:** Next.js by default, Astro for content-only showcases, or your existing stack. Uses GSAP, Lenis and OGL for motion and WebGL.
+5. **QA loop:** real-browser screenshots (desktop, phone, reduced motion), speed and accessibility checks. Then a fresh critic agent that never saw the plan scores the screenshots, and it keeps fixing until every category reaches 8/10.
+
+`/jury` is the critic on its own. It scores any site (ours, one `/awwwards` built, or a competitor's) on Awwwards-style criteria and gives fixes ranked by how much score they'd gain: `/jury https://site.com`, or `/jury https://mine.com vs https://theirs.com`.
+
+**Why it helps:** Like an art director who never settles: no lazy page ships. Of the design skills here, it's the one for building a *new* standout site from scratch. [Hallmark](#hallmark) is lighter and theme-based, and [unslop](#unslop) fixes an existing site.
+
+**How to use:**
+
+```bash
+npx skills add juliobsz/skills -g
+```
+
+Open a new session and type `/awwwards`, or just ask for a website. Add `--skill jury` to install only the critic. Plugin route: `/plugin install awwwards --marketplace juliobsz/skills` (same for `jury`). Use the plugin or the CLI, not both.
+
+**Watch out:**
+- A full run is long and token-heavy, so use it for sites that matter.
+- The 8/10 is its own score. Against two real winning sites, the critic scored about 1.1 points stricter than the actual jury. It isn't affiliated with Awwwards.
+- Without real copy and photos it ships marked placeholders for us to replace. It deploys (Vercel, Netlify, Cloudflare) only after we confirm.
+- The skills CLI collects anonymous usage data. Set `DISABLE_TELEMETRY=1` to turn it off.
 
 ---
 
