@@ -23,6 +23,8 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Graphify](#graphify)
   - [OmniRoute](#omniroute)
   - [Flint (local coding model)](#flint-local-coding-model)
+- [Guides and playbooks](#guides-and-playbooks)
+  - [How the Claude Code team does code review](#how-the-claude-code-team-does-code-review)
 
 ---
 
@@ -273,6 +275,28 @@ A coding model from Recursive, built for agent work (investigating codebases, fi
 - **Hardware is the catch.** `rec` needs an Apple Silicon Mac (M4 Pro/Max or M5 Pro/Max) with at least 48 GB of memory and ~30 GB of disk space. The full checkpoint needs a datacenter GPU (H200/B300). A typical Windows laptop can't run it well. Check our machines before planning around it.
 - Recursive says it needs more guidance than the big closed models: split work into small subtasks with explicit instructions.
 - Benchmark numbers are Recursive's own. Review its changes like any other agent's.
+
+---
+
+## Guides and playbooks
+
+### How the Claude Code team does code review
+
+**Link:** <https://claude.dev/blog/solving-code-review-at-anthropic/> · **Type:** Article (Anthropic engineering blog, Oct 2026, ~14 min) · **Cost:** Free · **Tags:** `code-review` `testing` `ci` `claude-code` `process`
+
+How Anthropic's Claude Code team reviews code now that Claude writes most of it. Review moved mostly to machines, in layers: the agent verifies its own work, then CI, AI review, security review, a risk-based human approval, a merge queue with feature flags, and fast rollback. Between June and September, merged PRs more than doubled while the share reverted fell by over 40%.
+
+**Why it helps:** Claude saying "done" isn't proof; passing tests are. The post is a checklist we can copy, like the one pilots run before takeoff, so we ship code we can trust.
+
+**Gates to copy into our projects:**
+- **Before the PR:** give Claude checks it can run (tests, build, linter, a screenshot to compare) and ask it to *show the output* instead of saying it's done. Then have a subagent with fresh context review the diff. Locally, run `/code-review` and `/security-review`.
+- **Turn every repeated mistake into a rule:** in a short `CLAUDE.md` (stack, conventions, goals, non-goals), a `REVIEW.md` saying what matters in each part of the code, a lint rule or a hook.
+- **On every PR:** required CI; a PR template with "Testing", "Risk" and "How to revert"; an AI reviewer and a security review whose open findings block the merge.
+- **Make reviews converge:** cap at **three rounds**, then step back and rethink the approach. After the first few passes, review only the new diff, and fix a whole class of bug at once. (One PR ran over fifty agent review/fix rounds overnight before someone stopped it.)
+- **Match review effort to risk:** a quick pass for routine changes, a deep one where a missed bug is expensive. Sensitive paths (auth, billing, CI, release) always need a person, and a bot's approval never replaces a required human's.
+- **After the merge:** feature flags, internal use first, staged releases, one-step rollback. Turn incidents and reverts into test cases for the reviewer.
+
+**Watch out:** It describes a large team with heavy CI. Start with the "before the PR" habits and the round cap, then add layers as projects grow.
 
 ---
 
