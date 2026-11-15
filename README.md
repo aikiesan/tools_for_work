@@ -27,6 +27,8 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Graphify](#graphify)
   - [OmniRoute](#omniroute)
   - [Flint (local coding model)](#flint-local-coding-model)
+- [Explaining and documenting](#explaining-and-documenting)
+  - [Annotated Illustrations (Ian Xiaohei)](#annotated-illustrations-ian-xiaohei)
 - [Social media, marketing and sales](#social-media-marketing-and-sales)
   - [OpenReply](#openreply)
   - [Sellbird (formerly Harvey)](#sellbird-formerly-harvey)
@@ -366,6 +368,25 @@ A coding model from Recursive, built for agent work (investigating codebases, fi
 - **Hardware is the catch.** `rec` needs an Apple Silicon Mac (M4 Pro/Max or M5 Pro/Max) with at least 48 GB of memory and ~30 GB of disk space. The full checkpoint needs a datacenter GPU (H200/B300). A typical Windows laptop can't run it well. Check our machines before planning around it.
 - Recursive says it needs more guidance than the big closed models: split work into small subtasks with explicit instructions.
 - Benchmark numbers are Recursive's own. Review its changes like any other agent's.
+
+---
+
+## Explaining and documenting
+
+### Annotated Illustrations (Ian Xiaohei)
+
+**Link:** <https://github.com/helloianneo/ian-xiaohei-illustrations> · **Type:** Agent skill (written for Codex) · **Cost:** Free (MIT, credit to Ian when adapting) · **Tags:** `illustrations` `diagrams` `explainers` `onboarding` `image-generation`
+
+A skill that reads a piece of content, picks the key ideas (a flow, a structure, a before/after, a state) and draws each as a 16:9 hand-drawn sketch: white background, thin black lines, a small black character ("Xiaohei") doing the core action, and a few short red, orange and blue annotations. It first proposes a shot list (4 to 8 images, where each goes and what each shows), then generates each image separately and checks it against a QA list.
+
+**Why it helps:** AI builds things in minutes, but understanding them takes much longer, and that gap is where bugs hide. Point it at a project, have it read the whole thing, and it sketches what each part does, what runs first and what talks to what. Like a map sketched on a napkin, a new teammate gets it in one look, even if they don't code.
+
+**How to use:** Copy the inner `ian-xiaohei-illustrations/` folder into the agent's skills folder (Codex: `~/.codex/skills/`; for Claude Code, `~/.claude/skills/`). Then, for example: *"Use ian-xiaohei-illustrations: read this project and plan 5 illustrations of how it works, with English labels. Don't generate yet."* Approve the shot list, then ask it to generate.
+
+**Watch out:**
+- **Ask for English labels.** It's built for Chinese articles, and its instructions and labels default to Chinese.
+- It generates images with Codex's built-in image tool. Claude Code has no built-in image generator, so there it can only plan the shot list and prompts unless we connect an image model.
+- It's meant for explainer sketches, not exact architecture or flow diagrams, and it doesn't output editable SVGs. Image models can misspell labels, so keep labels short and check each image.
 
 ---
 
