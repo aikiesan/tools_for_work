@@ -29,6 +29,8 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
 - [Prompts and thinking](#prompts-and-thinking)
   - [Be Ambitious](#be-ambitious)
   - [Arena](#arena)
+- [Writing](#writing)
+  - [Slop Monster](#slop-monster)
 - [Saving tokens and limits](#saving-tokens-and-limits)
   - [Ponytail](#ponytail)
   - [Graphify](#graphify)
@@ -422,6 +424,37 @@ Then `/arena` (it takes your last request and the answer you didn't like), or `/
 **Watch out:**
 - A full 100-agent run is about **595 subagent calls**, so it can burn through a big share of our Claude limits. Use `--quick` day to day and save the full bracket for the questions that matter.
 - It never edits our files; every competitor writes inside `.arena/`, and using the winner is our call.
+
+---
+
+## Writing
+
+### Slop Monster
+
+**Link:** <https://github.com/ItsssssJack/SlopMonster> · **Type:** Claude skill + Python checker + rival-model editing script · **Cost:** Free (MIT), no API key for the checker · **Tags:** `writing` `editing` `ai-tells` `claude-skill` `copywriting`
+
+A model can't easily spot its own writing tics, because it wrote them in the first place. Slop Monster works in three steps:
+1. **Lint:** a Python checker scores the draft out of 5 across five categories: AI-ish vocabulary ("delve", "seamless"), sentence patterns ("not just X, but Y", stacked hedges), punctuation (clusters of em dashes), formulaic three-item lists, and numbers that look like unsupported proof ("10,000 customers").
+2. **Cleanse with a rival model:** if Claude wrote the draft, Codex/GPT edits it; if GPT wrote it, Claude does. Fresh eyes catch the giveaways and rewrite them, not just flag them.
+3. **Lint again**, then a human reads it.
+
+**Why it helps:** Like asking a friend to proofread: you never catch your own typos. Run emails, READMEs, landing pages and scripts through it before readers flag them as AI in one line.
+
+**How to use:**
+
+```bash
+git clone https://github.com/ItsssssJack/SlopMonster
+cd SlopMonster
+python tools/deslop.py draft.md                                  # score and matches
+DESLOP_WRITER=claude tools/cleanse.sh draft.md > cleansed.md     # second pass by the other model family
+```
+
+As a skill: copy the folder to `~/.claude/skills/slopmonster/` and run `/slopmonster`. The rival pass needs the other family's CLI installed and signed in (for example Codex). Without it, the script prints the prompt and draft to paste into that model's chat.
+
+**Watch out:**
+- **English only.** The checker's patterns won't catch AI tells in Portuguese text; for that, use the editing workflow and judgement, or the rival-model pass alone.
+- 5/5 only means no listed pattern matched. Still read for sense, facts and what the reader needs, and check the rival model didn't change facts.
+- `cleanse.sh` is a shell script; on Windows, run it from Git Bash or WSL.
 
 ---
 
