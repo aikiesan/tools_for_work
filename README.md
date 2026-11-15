@@ -22,6 +22,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Ponytail](#ponytail)
   - [Graphify](#graphify)
   - [OmniRoute](#omniroute)
+  - [Flint (local coding model)](#flint-local-coding-model)
 
 ---
 
@@ -248,6 +249,30 @@ Open the dashboard at `http://localhost:20128`, connect providers with your own 
 - Fallback means the same task can switch to a weaker model mid-way. Check which model answered before trusting important output.
 - Don't route confidential project data through free tiers that train on inputs.
 - On npm 11+ you may need to allow its install scripts (see its README).
+
+### Flint (local coding model)
+
+**Model:** <https://huggingface.co/RecursiveSI/flint> · **Announcement:** <https://recursive.com/updates/introducing-recursive-flint> · **Local engine:** <https://github.com/recursive-oss/rec> · **Type:** Open-weights coding model · **Cost:** Free (Apache 2.0), runs on your own hardware · **Tags:** `local-ai` `offline` `coding-agent` `open-weights`
+
+A coding model from Recursive, built for agent work (investigating codebases, fixing bugs, implementing features, writing tests) on local hardware. It is a mixture-of-experts model with about 40B total parameters but only ~2.5B active per token, which makes it fast. Recursive reports over 125 tokens/s on an M4 Pro MacBook Pro. It supports tool use and a context of up to 256k tokens (recommended).
+
+**Why it helps:** Most coding jobs are small: a rename, a bug fix. Flint handles those offline on our own machine, so they don't use up Claude limits and the code never leaves the computer. We keep Claude for the hard problems.
+
+**How to use:**
+- **Mac (easiest):** install Recursive's `rec` engine, then start it with a ready-made harness:
+
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/recursive-oss/rec/main/install.sh | bash
+  rec launch opencode   # or: rec launch pi (Recursive's preferred harness)
+  ```
+
+  `rec serve` exposes OpenAI- and Anthropic-compatible APIs for other clients. Pairs well with [OpenCode](#opencode).
+- **NVIDIA GPU:** use the quantized NVIDIA variant, or serve the full BF16 checkpoint (~80 GB) with the SGLang kit in the Hugging Face repo.
+
+**Watch out:**
+- **Hardware is the catch.** `rec` needs an Apple Silicon Mac (M4 Pro/Max or M5 Pro/Max) with at least 48 GB of memory and ~30 GB of disk space. The full checkpoint needs a datacenter GPU (H200/B300). A typical Windows laptop can't run it well. Check our machines before planning around it.
+- Recursive says it needs more guidance than the big closed models: split work into small subtasks with explicit instructions.
+- Benchmark numbers are Recursive's own. Review its changes like any other agent's.
 
 ---
 
