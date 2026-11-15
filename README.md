@@ -9,8 +9,10 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
 - [Video, audio and media](#video-audio-and-media)
   - [Openverse](#openverse)
   - [Prompt Motion](#prompt-motion)
+  - [YouTube Agent Skill](#youtube-agent-skill)
 - [Design and UI](#design-and-ui)
   - [unslop](#unslop)
+  - [Hallmark](#hallmark)
 - [Coding agents and reverse engineering](#coding-agents-and-reverse-engineering)
   - [REA (Reverse Engineer Anything)](#rea-reverse-engineer-anything)
   - [OpenCode](#opencode)
@@ -51,6 +53,36 @@ A gallery of motion-graphics videos made with Claude, each shown next to the pro
 
 **Watch out:** Prompts are submitted by different creators, so quality varies. Credit the author when we reuse one closely. Some cards on the homepage are sponsored.
 
+### YouTube Agent Skill
+
+**Link:** <https://github.com/Jakeschincariol/youtube-agent-skill> · **Type:** Claude skills (11) + Python tools · **Cost:** Free (MIT), no API key · **Tags:** `youtube` `content-creation` `claude-skill` `video` `scripts`
+
+Eleven Claude skills for running a YouTube channel, backed by six dependency-free Python scripts. It covers the boring parts where channels usually fail:
+
+| Command | What it does |
+| --- | --- |
+| `/yt-script` | Turns an idea into a script: five hooks from 21 formulas, scored before you film, then the spoken script with retention beats marked |
+| `/yt-package` | Checks title and thumbnail together for truncation, duplication and vagueness |
+| `/yt-edit` | Turns a transcript into an edit decision list (dead air, filler, retakes) with timecodes |
+| `/yt-retention` | Reads your retention export and finds the exact second viewers left, and what was being said |
+| `/yt-viral` | Ranks what works in your niche by how far each video beat its own channel's median |
+| `/yt-shorts` | Finds Shorts inside a long video and writes a new first line for each |
+| `/yt-seo`, `/yt-chapters` | Description, useful tags, target queries; chapters checked against YouTube's rules |
+| `/yt-comment`, `/yt-plan`, `/yt-audit` | Comment triage and replies, a weekly plan that fits your hours, a channel audit ending in one fix |
+
+**Why it helps:** Like a producer reviewing every upload, so we stop guessing what went wrong.
+
+**How to use:** In Claude Code, run these as two separate prompts:
+
+```
+/plugin marketplace add Jakeschincariol/youtube-agent-skill
+/plugin install youtube-agent
+```
+
+Or copy `skills/yt-*` into `~/.claude/skills/`. Then fill in `templates/voice.md` (copy it to `~/.claude/youtube/voice.md`); every skill reads it.
+
+**Watch out:** It never publishes; you upload. The hook score is a heuristic, not a prediction of views. `/yt-viral` reads public listings only.
+
 ---
 
 ## Design and UI
@@ -72,6 +104,24 @@ claude plugin install unslop --marketplace heydamir/unslop
 On an older Claude Code: `claude plugin marketplace add heydamir/unslop` then `claude plugin install unslop@heydamir`. Start a new session (or `/reload-plugins`) and run `/unslop`.
 
 **Watch out:** Snapshotting a live site or making a "story" video needs Playwright and its Chromium browser installed in the project. See the repo README.
+
+### Hallmark
+
+**Link:** <https://github.com/Nutlope/hallmark> · **Site:** <https://www.usehallmark.com> · **Type:** Design skill (Claude Code, Codex, Cursor, OpenCode) · **Cost:** Free (MIT) · **Tags:** `web-design` `ui` `claude-skill` `frontend` `audit`
+
+A design skill by Together AI that won't produce pages that look AI-generated. For a new page it offers three of its fifty themes (each a full material: type, colour, surfaces, components), builds the page around what the visitor came to do, then checks it in a real browser at eight screen widths and has a fresh reviewer look at it. It catches the usual tells: the same fonts, tiny capitalised labels above every heading, one coloured word in a headline, rows of three cards, a sign-up box at the end of every page.
+
+**Why it helps:** People stop trusting a site once they spot it as AI-made. Hallmark is a second pair of eyes before launch. Compared with [unslop](#unslop): Hallmark is strongest for building new pages from its themes, and unslop for fixing an existing site in its own style. Both can audit.
+
+**How to use:**
+
+```bash
+npx skills add nutlope/hallmark -g
+```
+
+Then `/hallmark <prompt>` for a new page, `/hallmark audit ./index.html` to only list the tells, or `/hallmark redesign ./src/app` to rebuild while keeping content and wiring. Plugin route: `/plugin marketplace add nutlope/hallmark`, then `/plugin install hallmark@hallmark`.
+
+**Watch out:** Needs Node 18+. The browser checks also need `npm i -g puppeteer-core` and Chrome; without them only the static checks run. It outputs self-contained HTML/CSS, so a framework app may need the result ported.
 
 ---
 
