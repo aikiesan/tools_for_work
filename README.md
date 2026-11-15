@@ -12,6 +12,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [YouTube Agent Skill](#youtube-agent-skill)
   - [Claude Motion (and Dashboards)](#claude-motion-and-dashboards)
   - [Adobe for Claude](#adobe-for-claude)
+  - [Claude Animation Base](#claude-animation-base)
 - [Design and UI](#design-and-ui)
   - [unslop](#unslop)
   - [Hallmark](#hallmark)
@@ -19,6 +20,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [The Kitchen](#the-kitchen)
   - [Claude Docs, Slides and Design](#claude-docs-slides-and-design)
   - [Magic UI](#magic-ui)
+  - [Web motion stack: GSAP, Lenis and React Bits](#web-motion-stack-gsap-lenis-and-react-bits)
 - [Coding agents and reverse engineering](#coding-agents-and-reverse-engineering)
   - [REA (Reverse Engineer Anything)](#rea-reverse-engineer-anything)
   - [Reverse-engineer apps prompt (no install)](#reverse-engineer-apps-prompt-no-install)
@@ -143,6 +145,29 @@ Brings tools from Photoshop, Acrobat, Lightroom, Illustrator, Premiere, Firefly,
 - Files we upload go to Adobe as well as Anthropic. Think twice with confidential contracts or client photos.
 - For "the contract you never read properly": Claude can summarise it and flag clauses, but that's not legal advice. Have anything important checked.
 
+### Claude Animation Base
+
+**Link:** <https://github.com/JohnHeibel/ClaudeAnimationBase> · **Type:** Starter kit (code + guide for the model) · **Cost:** Free (MIT); runs on our Claude plan · **Tags:** `animation` `video` `p5js` `claude-code` `character-animation`
+
+A starter kit for having Claude animate hand-painted cartoons in code, with p5.js and p5.brush (watercolour fills, boiling linework). It comes with a ready-made character (Clawd) with 31 acted emotions, views, hats and dances, plus `ANIMATION_GUIDE.md`, the rules and API the model follows. It grew out of the code behind a music video made with Claude Opus 5.5. Ask Claude Code something like *"Read ANIMATION_GUIDE.md, then make a 15-second video of Clawd trying to catch a butterfly"*. The model storyboards first, builds shot by shot, renders contact sheets to check its own work, and writes `out/video.mp4`.
+
+**Why it helps:** Every frame is drawn in code, so there's no generated footage and any shot can be changed and re-rendered. The author found that higher reasoning effort gives richer, more detailed scenes. It's a good base for short animated explainers or mascot clips, and for testing what the model can do from a loose brief (ask for the storyboard first, then refine).
+
+**How to use:** Needs Node.js, Google Chrome and ffmpeg.
+
+```bash
+git clone https://github.com/JohnHeibel/ClaudeAnimationBase.git
+cd ClaudeAnimationBase && npm install
+node render.mjs --clip --out=out/video.mp4   # renders the demo
+```
+
+Open `studio.html` in Chrome to scrub through it, then open the folder in Claude Code and ask for our video.
+
+**Watch out:**
+- **It's not the "website → launch video" tool the short describes.** It animates a cartoon character, its guide says "no text", and it has no audio step. To make a product video from our site, we'd ask Claude to read the site, write the script, swap in our own character and style, and add text and sound ourselves (or use [Claude Motion](#claude-motion-and-dashboards), which is built for that).
+- Clawd is Claude Code's mascot, so swap in our own character before using it for our brand.
+- Without a dedicated GPU, the watercolour fills render slowly (seconds per frame); ask the model to avoid them on a laptop.
+
 ---
 
 ## Design and UI
@@ -254,6 +279,26 @@ npx @magicuidesign/cli@latest install claude
 ```
 
 **Watch out:** Needs a React + Tailwind project (Next.js is common). Pick a few effects; ten shimmering things on one page turns into exactly the AI-site look we're trying to avoid. "Magic UI Pro" templates are paid.
+
+### Web motion stack: GSAP, Lenis and React Bits
+
+**Links:** [GSAP](https://github.com/greensock/GSAP) (<https://gsap.com>) · [Lenis](https://github.com/darkroomengineering/lenis) (<https://lenis.dev>) · [React Bits](https://github.com/DavidHDev/react-bits) (<https://reactbits.dev>) · **Type:** JavaScript/React libraries · **Cost:** Free (see licenses below) · **Tags:** `animation` `scroll` `motion` `react` `landing-page`
+
+Claude can build a website but doesn't know how it should *move*, and motion is often the gap between generic and award-winning. These three are what the pros use, and Claude knows them well:
+
+| Tool | What it does | Install |
+| --- | --- | --- |
+| **GSAP** | The animation engine: timelines and sequencing, scroll-driven effects (ScrollTrigger), text splitting (SplitText), SVG morphing, motion paths. Works with any framework. | `npm install gsap` |
+| **Lenis** | Lightweight smooth scrolling (a few KB, no dependencies), with scroll snapping and syncing for parallax and WebGL. Pairs with GSAP ScrollTrigger. | `npm install lenis` |
+| **React Bits** | 215+ animated React components: text effects, backgrounds, buttons and more, in JS or TS and CSS or Tailwind. | `npx shadcn@latest add @react-bits/SplitText-TS-TW` |
+
+**Why it helps:** Like giving a band a drummer: same layout, same copy, but everything has rhythm and feels expensive. The [Awards skill](#awards-skill-awwwards-and-jury) uses GSAP and Lenis too.
+
+**How to use:** Paste the three links into Claude Code in our project and ask it to wire them in, for example *"Add Lenis smooth scrolling synced with GSAP ScrollTrigger, reveal each section on scroll, and use a React Bits text effect for the hero headline."* React Bits also works with the shadcn MCP server, so Claude can find and add components itself.
+
+**Watch out:**
+- **Licenses differ.** GSAP is 100% free, including all plugins and commercial use, thanks to Webflow, but under GSAP's own license, not MIT; read it if we ever build a website-builder product. Lenis is MIT. React Bits is MIT + Commons Clause: fine in any site or app, including paid ones, but we can't sell or redistribute the components themselves (for example, as a template or component pack).
+- Respect reduced-motion settings (GSAP's `matchMedia()` helps), and test smooth scroll on phones. Too much motion hurts usability and speed.
 
 ---
 
