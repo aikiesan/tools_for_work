@@ -14,6 +14,12 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
 - [Coding agents and reverse engineering](#coding-agents-and-reverse-engineering)
   - [REA (Reverse Engineer Anything)](#rea-reverse-engineer-anything)
   - [OpenCode](#opencode)
+- [Prompts and thinking](#prompts-and-thinking)
+  - [Be Ambitious](#be-ambitious)
+- [Saving tokens and limits](#saving-tokens-and-limits)
+  - [Ponytail](#ponytail)
+  - [Graphify](#graphify)
+  - [OmniRoute](#omniroute)
 
 ---
 
@@ -109,6 +115,89 @@ npm i -g @opencode/cli@latest
 Also available through Homebrew (`brew install anomalyco/tap/opencode-v2`), mise, Nix and Arch packages, plus a desktop app (beta) for macOS, Windows and Linux at <https://opencode.ai/download>.
 
 **Watch out:** Remove versions older than 0.1.x before installing. Check what each model provider charges and its data policy before sending it project code.
+
+---
+
+## Prompts and thinking
+
+### Be Ambitious
+
+**Post:** <https://felixrieseberg.com/how-to-be-more-ambitious-a-tutorial-for-humans-with-models> · **Skill:** <https://github.com/DannyMac180/skills/tree/main/be-ambitious> · **Type:** Prompt + Claude skill · **Cost:** Free (skill is MIT) · **Tags:** `prompting` `claude-skill` `research` `quality`
+
+A prompt by Felix Rieseberg (who works on Claude at Anthropic), packaged as a `/be-ambitious` skill by DannyMac180. Before doing a task, Claude says what a top professional in the field would do that we aren't asking for, the rawest source material they'd start from, the specific methods and tools they'd use, and what (other than us or the model) would show the result is right. Then it rewrites the prompt to ask for exactly that.
+
+**Why it helps:** The model's work is capped by what we ask for. Ask for a small fix and you get a small fix. This pushes it to find the goal behind the task and work like a senior expert would. The post explains the four kinds of ambition: speed, altitude (aim at the outcome, not the task), depth (work like a field-leading expert) and range (borrow from other fields).
+
+**How to use:** Read the post once. Then paste the prompt before any big task, or install the skill folder in `~/.claude/skills/be-ambitious/` and run `/be-ambitious <task>`.
+
+**Watch out:** It is meant to make a task *deeper, not bigger*: same goal and scope, higher standard. If its suggestions start adding features or side quests, drop them.
+
+---
+
+## Saving tokens and limits
+
+Claude's usage limits mostly run out from waste: code nobody asked for, the same files read over and over, and builds that stop dead halfway when a limit hits. These three tools tackle each of those.
+
+### Ponytail
+
+**Link:** <https://github.com/DietrichGebert/ponytail> · **Site:** <https://ponytail.dev> · **Type:** Claude Code plugin / skill · **Cost:** Free (MIT) · **Tags:** `claude-skill` `minimal-code` `tokens` `code-quality`
+
+A skill that makes the agent write like a terse senior developer: only the code the task needs, without cutting validation, error handling, security or accessibility. The author's benchmark (Claude Code, 39 tasks, with and without the skill) reports roughly half the code and about 45% fewer tokens, and more risky logic shipped with tests.
+
+**Why it helps:** Less code that nobody asked for means fewer tokens, less to review and less to maintain.
+
+**How to use:** In Claude Code, run these as two separate prompts:
+
+```
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+```
+
+Codex and other agents: see the repo's `INSTALL.md` (or copy its `AGENTS.md` into the project).
+
+**Watch out:** The numbers are the author's own benchmark. Still review what it removes.
+
+### Graphify
+
+**Link:** <https://github.com/Graphify-Labs/graphify> · **Site:** <https://www.graphify.com> · **Type:** CLI + `/graphify` skill · **Cost:** Free (Apache 2.0); optional paid cloud · **Tags:** `knowledge-graph` `codebase-map` `tokens` `claude-skill`
+
+Maps a whole project (code, docs, SQL schemas, configs, PDFs, images) into a knowledge graph that the agent queries instead of grepping and re-reading files. Code is parsed locally with tree-sitter (deterministic, no LLM, nothing leaves the machine). Each edge is marked as read directly from the source (`EXTRACTED`) or inferred (`INFERRED`).
+
+**Why it helps:** Gives Claude a map of the project, so it stops reading the same files again and again.
+
+**How to use:** Needs Python 3.10+ and `uv` (or `pipx`):
+
+```bash
+uv tool install graphifyy
+graphify install
+```
+
+Then run `/graphify .` in the assistant. It writes `graphify-out/` with `graph.html` (clickable map), `GRAPH_REPORT.md` (highlights) and `graph.json` (the full graph).
+
+**Watch out:** The package is spelled `graphifyy` (two y's). Docs, PDFs and images go through a model for their semantic pass, so they cost tokens and leave the machine, unlike code. Graphify Cloud is a separate paid product.
+
+### OmniRoute
+
+**Link:** <https://github.com/cheaper-inference/OmniRoute> · **Site:** <https://omniroute.online> · **Type:** Local AI gateway (proxy + dashboard) · **Cost:** Free (MIT); provider costs are your own · **Tags:** `ai-gateway` `fallback` `multi-provider` `tokens`
+
+A local gateway with one OpenAI-compatible endpoint in front of hundreds of model providers. It falls back automatically between your connected providers based on quota, and can compress prompts. It works with Claude Code, Codex, Cursor, OpenCode, Cline and Copilot.
+
+**Why it helps:** When one provider's limit hits, work continues on another instead of stopping halfway through a build.
+
+**How to use:**
+
+```bash
+npm install -g omniroute
+omniroute
+```
+
+Open the dashboard at `http://localhost:20128`, connect providers with your own accounts or API keys, then point the coding tool at `http://localhost:20128/v1` with the key shown under Dashboard → Endpoints and model `auto`.
+
+**Watch out:**
+- It only routes to accounts you connect yourself. Check each provider's terms, quotas and data policy, and avoid the "web-cookie" providers, which use a logged-in browser session instead of an official API and can break the provider's terms. Providers marked `tos: avoid` are left out of `auto` by default; keep it that way.
+- Fallback means the same task can switch to a weaker model mid-way. Check which model answered before trusting important output.
+- Don't route confidential project data through free tiers that train on inputs.
+- On npm 11+ you may need to allow its install scripts (see its README).
 
 ---
 
