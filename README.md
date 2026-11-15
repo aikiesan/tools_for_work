@@ -11,12 +11,14 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Prompt Motion](#prompt-motion)
   - [YouTube Agent Skill](#youtube-agent-skill)
   - [Claude Motion (and Dashboards)](#claude-motion-and-dashboards)
+  - [Adobe for Claude](#adobe-for-claude)
 - [Design and UI](#design-and-ui)
   - [unslop](#unslop)
   - [Hallmark](#hallmark)
   - [Awards skill (/awwwards and /jury)](#awards-skill-awwwards-and-jury)
   - [The Kitchen](#the-kitchen)
   - [Claude Docs, Slides and Design](#claude-docs-slides-and-design)
+  - [Magic UI](#magic-ui)
 - [Coding agents and reverse engineering](#coding-agents-and-reverse-engineering)
   - [REA (Reverse Engineer Anything)](#rea-reverse-engineer-anything)
   - [Reverse-engineer apps prompt (no install)](#reverse-engineer-apps-prompt-no-install)
@@ -120,6 +122,25 @@ Anthropic's own animation feature, announced October 2026. Describe an explainer
 
 **Watch out:** Both are in beta. Motion is not on Free or Pro plans. It's built for explaining our own work, not for realistic footage.
 
+### Adobe for Claude
+
+**Link:** <https://www.adobe.com/adobe-connectors/adobe-for-claude.html> · **Type:** Official Adobe plugin + connector for Claude · **Cost:** Free to start; more with a free Adobe account; some tools need a paid Adobe plan · **Tags:** `adobe` `photoshop` `acrobat` `pdf` `photo-editing` `video`
+
+Brings tools from Photoshop, Acrobat, Lightroom, Illustrator, Premiere, Firefly, InDesign, Adobe Express and Adobe Stock into Claude conversations. Describe what you want and Claude picks the right Adobe tool, for example:
+- **Photos in bulk:** "Balance the lighting and auto-straighten all these photos," background blur, cropping for headshots, events or products.
+- **Resizing for every platform:** "Resize my video for YouTube, TikTok and my Instagram feed."
+- **PDFs:** turn designs into PDFs, organise pages, redact sensitive information, edit, annotate, and make personalised documents from data.
+- **Designs:** start from templates, open a live editor to swap images, text and colours, license stock images and videos, animate designs for social.
+
+**Why it helps:** Photoshop was never the hard part; finding the right button was. Like an assistant who knows every menu: no course needed, just one sentence. Good for the files we keep avoiding.
+
+**How to use:** In Claude (web or desktop): **Customize** → **Plugins** → **Discover**, search "Adobe" and add it. Then on the plugin's **Connectors** tab, connect Adobe and type `/adobe` in a new conversation.
+
+**Watch out:**
+- It doesn't include every feature of each Adobe app. Many tools work without signing in, others need an Adobe account or an eligible paid plan.
+- Files we upload go to Adobe as well as Anthropic. Think twice with confidential contracts or client photos.
+- For "the contract you never read properly": Claude can summarise it and flag clauses, but that's not legal advice. Have anything important checked.
+
 ---
 
 ## Design and UI
@@ -215,6 +236,22 @@ Claude makes documents, slide decks and visual designs directly in the chat, usi
 **Watch out:**
 - The standalone Claude Design site (`claude.ai/design`) closes on **14 December 2026**. Before then, migrate team design systems from the Artifacts page ("Migrate team design systems") and save any chats or comments there, which won't carry over. Public links to standalone projects stop working when it closes.
 - Check exported PowerPoint/Google Slides files before presenting, and compare features before cancelling other subscriptions.
+
+### Magic UI
+
+**Link:** <https://magicui.design> · **GitHub:** <https://github.com/magicuidesign/magicui> · **Type:** Animated React component library + MCP server · **Cost:** Free (MIT); optional paid Pro templates · **Tags:** `ui-components` `animation` `landing-page` `react` `tailwind` `shadcn`
+
+150+ free, open-source animated components and effects (React, TypeScript, Tailwind CSS and Motion), made to sit alongside shadcn/ui. Think shimmer buttons, animated lists, scrolling client-logo strips (marquees), animated number counters and backgrounds: the small moving details that make big-brand sites feel premium.
+
+**Why it helps:** Ask Claude to rebuild a landing page with them and it pulls in the animations and restyles each in our colours and fonts. Like a suit tailored to us instead of one off the rack. Compared with [The Kitchen](#the-kitchen) (clear MIT license, built for landing pages), and pairs with [unslop](#unslop) or [Hallmark](#hallmark) to keep the overall look from going generic.
+
+**How to use:** Browse <https://magicui.design/docs> and add components with the shadcn CLI, as each page shows. To let Claude search and install them directly, add the official MCP server:
+
+```bash
+npx @magicuidesign/cli@latest install claude
+```
+
+**Watch out:** Needs a React + Tailwind project (Next.js is common). Pick a few effects; ten shimmering things on one page turns into exactly the AI-site look we're trying to avoid. "Magic UI Pro" templates are paid.
 
 ---
 
