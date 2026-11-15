@@ -21,6 +21,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [OpenCode](#opencode)
 - [Prompts and thinking](#prompts-and-thinking)
   - [Be Ambitious](#be-ambitious)
+  - [Arena](#arena)
 - [Saving tokens and limits](#saving-tokens-and-limits)
   - [Ponytail](#ponytail)
   - [Graphify](#graphify)
@@ -253,6 +254,27 @@ A prompt by Felix Rieseberg (who works on Claude at Anthropic), packaged as a `/
 **How to use:** Read the post once. Then paste the prompt before any big task, or install the skill folder in `~/.claude/skills/be-ambitious/` and run `/be-ambitious <task>`.
 
 **Watch out:** It is meant to make a task *deeper, not bigger*: same goal and scope, higher standard. If its suggestions start adding features or side quests, drop them.
+
+### Arena
+
+**Link:** <https://github.com/Jakeschincariol/arena-skill> · **Type:** Claude Code skill · **Cost:** Free (MIT), but very heavy on usage · **Tags:** `claude-skill` `subagents` `tournament` `quality` `decision-making`
+
+For when Claude keeps giving a bad answer. `/arena` gives the exact same task to 100 subagents, each with a different strategy card (2,160 combinations of reasoning mode, workflow and strategy, such as first principles, test first or edge cases first). They pair off, attack each other's solutions (flaws labelled FATAL, MAJOR or MINOR), defend and revise, and a separate judge scores each match on a written rubric. The loser is out: 100 → 50 → 25 → 13 → 7 → 4 → 2 → 1.
+
+**Why it helps:** One Claude gives one answer; here the answer has to survive a bracket, like a cooking show with 100 chefs where one dish reaches the table. You get the winner, every attack it survived and how many rounds it took. If you started from an answer you rejected, a final blind judge says honestly whether the winner beats it.
+
+**How to use:**
+
+```bash
+git clone https://github.com/Jakeschincariol/arena-skill.git
+cp -r arena-skill/skills/arena ~/.claude/skills/
+```
+
+Then `/arena` (it takes your last request and the answer you didn't like), or `/arena --quick <task>` for 16 competitors, or `/arena --agents 32 <task>`. Plugin route: `/plugin marketplace add Jakeschincariol/arena-skill`, then `/plugin install arena-skill@arena-skill` (invoked as `/arena-skill:arena`). Needs Claude Code and Python 3.8+.
+
+**Watch out:**
+- A full 100-agent run is about **595 subagent calls**, so it can burn through a big share of our Claude limits. Use `--quick` day to day and save the full bracket for the questions that matter.
+- It never edits our files; every competitor writes inside `.arena/`, and using the winner is our call.
 
 ---
 
