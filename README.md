@@ -40,6 +40,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
 - [Social media, marketing and sales](#social-media-marketing-and-sales)
   - [OpenReply](#openreply)
   - [Sellbird (formerly Harvey)](#sellbird-formerly-harvey)
+  - [Muse for Small Business (Meta)](#muse-for-small-business-meta)
 - [Career](#career)
   - [AI Job Search](#ai-job-search)
 - [Guides and playbooks](#guides-and-playbooks)
@@ -572,6 +573,21 @@ The repo's `CLAUDE.md` turns Claude Code into the setup guide. Manual route: `pi
 - Send from a separate domain and warm the mailbox first, or our main domain's deliverability suffers.
 - It runs in the background through our Claude plan, so it eats into the same usage limits as our own work. Check that this kind of automated use fits the plan's terms.
 - AGPL-3.0: if we modify it and offer it to others as a service, we must publish our changes.
+
+### Muse for Small Business (Meta)
+
+**Link:** <https://muse.ai/business> · **Type:** Hosted AI agent (by Meta) · **Cost:** Free for most uses; paid plans for more · **Tags:** `small-business` `ads` `bookkeeping` `marketing` `agent`
+
+Muse is Meta's personal AI agent, which keeps working in the background on goals you give it. The Small Business version adds skills and connectors for business owners. It connects to tools we already pay for (QuickBooks, Shopify, Stripe, Klaviyo, Canva, Notion, Slack, Asana, Dropbox, Figma, Zoom and more) plus Facebook, Instagram and Meta Ads in one step. Ask what's working in your ads and it reads your sales and posts, then drafts the next campaign. It plans content, drafts customer replies, and manages cash flow and inventory, flagging odd expenses early.
+
+**Why it helps:** The numbers already show what's working; nobody's reading them for us. Like a bookkeeper and a marketer sharing one desk, without the invoice.
+
+**How to use:** Sign up at the link, connect the tools, and give it a goal. Nothing is published, sent or spent without our approval, and there's a full audit trail of what it did and plans to do.
+
+**Watch out:**
+- **Not available in Brazil yet:** only in the US and Canada, for people 18 and over, with no date for other markets. Keep it on the list for later.
+- It gets wide access to business data (accounting, sales, payments, ads). Weigh that before connecting, and keep approvals on.
+- Its ad advice comes from the company that sells the ads, so check its suggested spend against our own numbers.
 
 ---
 
