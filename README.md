@@ -16,6 +16,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Hallmark](#hallmark)
   - [Awards skill (/awwwards and /jury)](#awards-skill-awwwards-and-jury)
   - [The Kitchen](#the-kitchen)
+  - [Claude Docs, Slides and Design](#claude-docs-slides-and-design)
 - [Coding agents and reverse engineering](#coding-agents-and-reverse-engineering)
   - [REA (Reverse Engineer Anything)](#rea-reverse-engineer-anything)
   - [Reverse-engineer apps prompt (no install)](#reverse-engineer-apps-prompt-no-install)
@@ -195,6 +196,20 @@ A collection by dqnamo of small, tactile interface pieces that make an app feel 
 **How to use:** Open a component, copy its code from the page, or give Claude the page link and ask it to adapt that component to our design.
 
 **Watch out:** We couldn't find a license on the site. Check with the author before shipping its code in a commercial product, or have Claude rebuild the idea in our own code. Use one or two signature details per app, not all of them.
+
+### Claude Docs, Slides and Design
+
+**Link:** <https://claude.com/resources/articles/dashboards-and-motion> · **Type:** Built into Claude (claude.ai and mobile app) · **Cost:** Every plan, including Free (out of beta since October 2026) · **Tags:** `slides` `documents` `design` `anthropic` `presentations`
+
+Claude makes documents, slide decks and visual designs directly in the chat, using the conversation's context, our files and connectors. They're editable in Claude's editor, the team can work on them together, and they can be shared by link (inside or outside the organisation, if the admin allows it). Decks export to PowerPoint or PDF with formatting kept, or go straight to Google Slides as editable files. You can also edit on your phone.
+
+**Why it helps:** Many people pay for several apps: one for decks (Gamma), one for graphics (Canva), another for docs. Here it's all one chat, so the deck, the one-pager and the graphics share the same context and match, like one designer who already knows our brand and never needs briefing twice. Saving a team design system keeps everything on-brand. Related: [Claude Motion](#claude-motion-and-dashboards) for animated explainers.
+
+**How to use:** Just ask in a chat, for example "Turn these notes into a deck for Monday," "Make a one-page summary of this report," or "Design a social post announcing this."
+
+**Watch out:**
+- The standalone Claude Design site (`claude.ai/design`) closes on **14 December 2026**. Before then, migrate team design systems from the Artifacts page ("Migrate team design systems") and save any chats or comments there, which won't carry over. Public links to standalone projects stop working when it closes.
+- Check exported PowerPoint/Google Slides files before presenting, and compare features before cancelling other subscriptions.
 
 ---
 
