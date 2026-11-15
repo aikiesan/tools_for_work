@@ -14,8 +14,10 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [unslop](#unslop)
   - [Hallmark](#hallmark)
   - [Awards skill (/awwwards and /jury)](#awards-skill-awwwards-and-jury)
+  - [The Kitchen](#the-kitchen)
 - [Coding agents and reverse engineering](#coding-agents-and-reverse-engineering)
   - [REA (Reverse Engineer Anything)](#rea-reverse-engineer-anything)
+  - [Reverse-engineer apps prompt (no install)](#reverse-engineer-apps-prompt-no-install)
   - [OpenCode](#opencode)
 - [Prompts and thinking](#prompts-and-thinking)
   - [Be Ambitious](#be-ambitious)
@@ -24,8 +26,9 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Graphify](#graphify)
   - [OmniRoute](#omniroute)
   - [Flint (local coding model)](#flint-local-coding-model)
-- [Social media and marketing](#social-media-and-marketing)
+- [Social media, marketing and sales](#social-media-marketing-and-sales)
   - [OpenReply](#openreply)
+  - [Sellbird (formerly Harvey)](#sellbird-formerly-harvey)
 - [Career](#career)
   - [AI Job Search](#ai-job-search)
 - [Guides and playbooks](#guides-and-playbooks)
@@ -161,6 +164,18 @@ Open a new session and type `/awwwards`, or just ask for a website. Add `--skill
 - Without real copy and photos it ships marked placeholders for us to replace. It deploys (Vercel, Netlify, Cloudflare) only after we confirm.
 - The skills CLI collects anonymous usage data. Set `DISABLE_TELEMETRY=1` to turn it off.
 
+### The Kitchen
+
+**Link:** <https://www.dqnamo.com/kitchen> · **Type:** Gallery of UI components and interface studies · **Cost:** Free to browse · **Tags:** `ui-components` `micro-interactions` `react` `animation` `frontend`
+
+A collection by dqnamo of small, tactile interface pieces that make an app feel crafted rather than generic. Examples include a cassette audio player with turning reels, a hold-to-delete button that fills while held and then offers an undo, a checkout that prints a receipt when payment clears, a magnetic file drop zone, a self-drawing signature, a ticket and a postage stamp frame, playing cards, scramble text and an iridescent foil effect.
+
+**Why it helps:** Most AI-built apps look and feel the same. One or two memorable details, like swapping plastic for real wood, make ours feel expensive without changing how it works. Pairs with the design skills above: they fix the layout, these add the feel.
+
+**How to use:** Open a component, copy its code from the page, or give Claude the page link and ask it to adapt that component to our design.
+
+**Watch out:** We couldn't find a license on the site. Check with the author before shipping its code in a commercial product, or have Claude rebuild the idea in our own code. Use one or two signature details per app, not all of them.
+
 ---
 
 ## Coding agents and reverse engineering
@@ -185,6 +200,25 @@ Setup registers REA with your agent and installs its workflow instructions. Nati
 - Only analyse software we have the right to inspect, and read its license and terms first. Many forbid reverse engineering. Use it to learn and rebuild ideas in our own code, never to copy someone else's code or assets.
 - Install only from the official sources (the GitHub repo, rea.tools or the `rea-agents` npm package). The README warns about lookalike repos.
 - On Linux, Ghidra/JADX and the JS/Electron analysis need a procps-compatible `ps`.
+
+### Reverse-engineer apps prompt (no install)
+
+**Link:** <https://bit.ly/4i0wNCh> (Notion page "Reverse engineer Apps (no install)") · **Type:** Prompt / skill · **Cost:** Free (based on REA, MIT) · **Tags:** `reverse-engineering` `prompting` `app-builder` `rebuild`
+
+REA's method without its tools. REA's own instructions (its skill file and guides, 789 lines) distilled into one prompt that works in any chat that accepts images. Attach screenshots or screen recordings of an app from your own account, and it:
+
+1. writes a checklist of everything needed to rebuild it (every screen, action, rule and the stored data);
+2. goes feature by feature: where the user starts, what they do, what changes, what they end up with;
+3. marks each finding OBSERVED, INFERRED or UNKNOWN, citing the source screenshot;
+4. lists the data model (tables and fields);
+5. re-checks the list and says exactly what to click or record next for anything still open;
+6. ends with a build spec under "Build this", ready to paste into Claude or an app builder.
+
+**Why it helps:** Many subscriptions pay for a handful of core features (booking pages, forms, boards). The prompt's author says their Calendly-style rebuild worked first try (booking page, Google login, confirmation emails), and Typeform- and Trello-style rebuilds came close. Like getting the recipe, then cooking it your way.
+
+**How to use:** Copy the "One-paste prompt" from the page, replace `[APP]`, attach the screenshots and paste. With no screenshots yet, capture every main screen, one full journey of the key feature, and any settings or results page. For decompiling app files, use [REA](#rea-reverse-engineer-anything) itself.
+
+**Watch out:** The prompt's own rules are the right ones. Only study apps you're allowed to use, never get around a login, paywall or paid feature, and copy *what* the app does, never its code, images, logo, wording, colours or name. Before cancelling a subscription, weigh the cost of hosting and maintaining our own version.
 
 ### OpenCode
 
@@ -313,7 +347,7 @@ A coding model from Recursive, built for agent work (investigating codebases, fi
 
 ---
 
-## Social media and marketing
+## Social media, marketing and sales
 
 ### OpenReply
 
@@ -338,6 +372,31 @@ npm run worker   # second terminal: this is what sends the DMs
 - You need your own Meta developer app, or the optional *paid* Zernio connection (the project's sponsor).
 - Coming from ManyChat: disconnect it first and give OpenReply control of conversations in Meta Business Suite, or DM buttons fail.
 - If comments arrive but no DM goes out, check that the worker is running.
+
+### Sellbird (formerly Harvey)
+
+**Link:** <https://github.com/ethanplusai/harvey> (now redirects to `ethanplusai/sellbird`) · **Site:** <https://sellbird.ai> · **Type:** Self-hosted outreach agent + dashboard · **Cost:** Free (AGPL-3.0); runs on your Claude Pro/Max or ChatGPT plan · **Tags:** `cold-email` `lead-generation` `sales` `claude-code` `self-hosted`
+
+An open-source cold-email agent that does the research first. It finds businesses that match your customer (free via OpenStreetMap, or a paid source that shows its cost first), reads each company's website for buying signals (no online booking, ads running, a role they're hiring for), finds the owner or manager, and verifies the email address. Then it writes a short personal sequence about something real for that business, sends it from your Gmail, Microsoft 365 or SMTP mailbox, reads the replies and drafts answers that steer toward a booked call.
+
+**Why it helps:** Lazy, generic cold email gets ignored. This is a sales rep who never skips the research, even on email five hundred, without paying an agency or tools like Apollo or Clay.
+
+**How to use:** Needs Python 3.11+, Claude Code signed in on a Pro/Max plan (or Codex on ChatGPT), and a separate, warmed-up sending mailbox.
+
+```bash
+git clone https://github.com/ethanplusai/sellbird.git
+cd sellbird
+claude   # then say: "set up Sellbird for me"
+```
+
+The repo's `CLAUDE.md` turns Claude Code into the setup guide. Manual route: `pip install -e .`, fill in `.env`, then `sellbird train <our-site>`, `sellbird signals --confirm free`, `sellbird discover`, `sellbird dashboard` and `sellbird run`. Only want leads? Stop after verifying and run `sellbird export` for a CSV.
+
+**Watch out:**
+- **Law first.** Unsolicited email to people's work addresses falls under LGPD in Brazil (and GDPR, CAN-SPAM and others abroad): have a legitimate basis, identify ourselves, honour opt-outs (it does this automatically) and don't store more personal data than needed.
+- Keep the default where every email waits in the Outbox for our approval. Turn on autopilot only once we trust its drafts.
+- Send from a separate domain and warm the mailbox first, or our main domain's deliverability suffers.
+- It runs in the background through our Claude plan, so it eats into the same usage limits as our own work. Check that this kind of automated use fits the plan's terms.
+- AGPL-3.0: if we modify it and offer it to others as a service, we must publish our changes.
 
 ---
 
