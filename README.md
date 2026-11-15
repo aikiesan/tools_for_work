@@ -20,6 +20,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
 - [Coding agents and reverse engineering](#coding-agents-and-reverse-engineering)
   - [REA (Reverse Engineer Anything)](#rea-reverse-engineer-anything)
   - [Reverse-engineer apps prompt (no install)](#reverse-engineer-apps-prompt-no-install)
+  - [Replica](#replica)
   - [OpenCode](#opencode)
 - [Prompts and thinking](#prompts-and-thinking)
   - [Be Ambitious](#be-ambitious)
@@ -257,6 +258,30 @@ REA's method without its tools. REA's own instructions (its skill file and guide
 **How to use:** Copy the "One-paste prompt" from the page, replace `[APP]`, attach the screenshots and paste. With no screenshots yet, capture every main screen, one full journey of the key feature, and any settings or results page. For decompiling app files, use [REA](#rea-reverse-engineer-anything) itself.
 
 **Watch out:** The prompt's own rules are the right ones. Only study apps you're allowed to use, never get around a login, paywall or paid feature, and copy *what* the app does, never its code, images, logo, wording, colours or name. Before cancelling a subscription, weigh the cost of hosting and maintaining our own version.
+
+### Replica
+
+**Link:** <https://github.com/Jakeschincariol/replica-skill> · **Type:** Claude skills (11) + Python tools · **Cost:** Free (MIT), no API key · **Tags:** `claude-skill` `reverse-engineering` `rebuild` `product` `app-reviews`
+
+Eleven skills that take an app from study to a launched, better version of your own, run in order (each reads what the last wrote in a `replica/` folder):
+
+`recon` (maps every screen, flow, component and the data model from public pages, screenshots, store listings and your own account) → `architect` (stack, schema, API) → `design` (design system as tokens, with your own assets) → `build` → `backend` (auth, database, payments, integrations) → `test` (clicks through every flow, logs bugs by severity) → `diff` (parity score against the original) → `entrepreneur` → `brand` (new name, palette, logo brief and voice, then sweeps out any trace of the original) → `launch` (landing page, pricing, store listing) → `deploy`.
+
+**Why it helps:** Every paid app's complaints are right there in its reviews. `/replica-entrepreneur` reads real reviews (App Store, G2, Capterra, Reddit), counts the top complaints with linked quotes, and turns them into fixes and a positioning angle. Like a chef tasting a rival's dish, then cooking it better. Run on its own, it's also a cheap way to check if an app idea is worth building at all.
+
+**How to use:** Paste the repo link into Claude and say "install skill", or:
+
+```
+/plugin marketplace add Jakeschincariol/replica-skill
+/plugin install replica-skill@replica-skill
+```
+
+(As a plugin the commands are `/replica-skill:replica-recon` and so on. Copy the `replica-*` folders into `~/.claude/skills/` for plain `/replica-recon`.) Needs Python 3.8+ for the tools. It's the full pipeline version of the [reverse-engineer prompt](#reverse-engineer-apps-prompt-no-install), and builds on ideas from [REA](#rea-reverse-engineer-anything).
+
+**Watch out:**
+- It copies what an app does, never its code, logo, copy or content, and only reads public pages and your own account. If your account's terms forbid building a competitor, it sticks to public sources. `/replica-deploy` won't ship until the brand sweep is clean.
+- Even so, before *selling* a clone, check trademarks (it lists the checks to run), possible patents and the original's terms with someone who knows the law.
+- A full run is long and heavy on usage, and afterwards we own the hosting, support and maintenance.
 
 ### OpenCode
 
