@@ -29,6 +29,9 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Graphify](#graphify)
   - [OmniRoute](#omniroute)
   - [Flint (local coding model)](#flint-local-coding-model)
+- [Claude Code mods and long sessions](#claude-code-mods-and-long-sessions)
+  - [You Should Know (built-in mod)](#you-should-know-built-in-mod)
+  - [claude-auto-handoff](#claude-auto-handoff)
 - [Desktop assistants](#desktop-assistants)
   - [Atticus (Mac and Windows)](#atticus-mac-and-windows)
 - [Explaining and documenting](#explaining-and-documenting)
@@ -400,6 +403,51 @@ A coding model from Recursive, built for agent work (investigating codebases, fi
 - **Hardware is the catch.** `rec` needs an Apple Silicon Mac (M4 Pro/Max or M5 Pro/Max) with at least 48 GB of memory and ~30 GB of disk space. The full checkpoint needs a datacenter GPU (H200/B300). A typical Windows laptop can't run it well. Check our machines before planning around it.
 - Recursive says it needs more guidance than the big closed models: split work into small subtasks with explicit instructions.
 - Benchmark numbers are Recursive's own. Review its changes like any other agent's.
+
+---
+
+## Claude Code mods and long sessions
+
+**Mods** (added in Claude Code 2.1.287, see the [changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)) are plugins that can change Claude Code's deeper behaviour: hook into tool calls and turns, draw panels above the prompt, run side agents. Long sessions tend to break near the end, when Claude Code compacts its context and the details we needed get squashed. These two mods tackle that.
+
+### You Should Know (built-in mod)
+
+**Link:** [Claude Code changelog, 2.1.287](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) · **Type:** Built-in Claude Code mod by Anthropic · **Cost:** Free with Claude Code (the side agent uses some of our usage) · **Tags:** `claude-code` `mod` `review` `safety-net`
+
+A side agent watches the session and flags things you or Claude might have missed, as short notes ("You should know…") that say who made the decision: "we", "the main agent" or "you".
+
+**Why it helps:** A second pair of eyes during long sessions, catching slips before they get buried.
+
+**How to use:**
+
+```
+/plugin enable cc-plugin-you-should-know@builtin
+```
+
+**Watch out:** Only for first-party sessions (Anthropic's own sign-in or API) with telemetry turned on.
+
+### claude-auto-handoff
+
+**Link:** <https://github.com/alexknowshtml/claude-auto-handoff> · **Type:** Claude Code mod · **Cost:** Free (MIT); briefs written by Haiku use a little of our usage · **Tags:** `claude-code` `mod` `context` `handoff` `long-sessions`
+
+Replaces auto-compact with a handoff, like a shift change at a hospital where the next nurse gets the full chart. When the context passes a threshold, the mod stops new tool calls, has Haiku write a structured brief (work in progress, decisions, assumptions to verify, dead ends, the last request and whether it was answered, the next step), and adds the files, commits and issues straight from the transcript. Then it runs `/clear` and tells the fresh session to read the brief and carry on.
+
+**Why it helps:** Auto-compact summarises in place and you can't control what it keeps. The brief has a fixed structure you can edit, so the work keeps moving and nothing important is dropped.
+
+**How to use:**
+
+```bash
+git clone https://github.com/alexknowshtml/claude-auto-handoff.git ~/claude-auto-handoff
+claude --plugin-dir ~/claude-auto-handoff
+```
+
+To load it in every session, add `"env": { "CLAUDE_CODE_PLUGIN_DIRS": "~/claude-auto-handoff" }` to `~/.claude/settings.json`. Settings (threshold, brief template, max handoffs in a row) are under auto-handoff in `/config`. Briefs are saved in `~/.claude/state/auto-handoff/`.
+
+**Watch out:**
+- The default threshold (160k tokens) is sized for a 200k context window. Raise it for models with larger windows, or it hands off too early.
+- Briefs are also served as web pages on your Tailscale IP (or only on this machine without Tailscale). They contain session details, so leave the `viewer` setting blank if others share that network.
+- Windows works since v0.8.5, but the viewer server needs a POSIX shell. Without one, the link opens the brief as a local file.
+- `DISABLE_AUTO_COMPACT` also switches it off. `AUTO_HANDOFF_DISABLE=1` turns it off for one session.
 
 ---
 
