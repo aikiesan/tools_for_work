@@ -10,6 +10,7 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Openverse](#openverse)
   - [Prompt Motion](#prompt-motion)
   - [YouTube Agent Skill](#youtube-agent-skill)
+  - [Claude Motion (and Dashboards)](#claude-motion-and-dashboards)
 - [Design and UI](#design-and-ui)
   - [unslop](#unslop)
   - [Hallmark](#hallmark)
@@ -27,6 +28,8 @@ Each entry says what the tool is, how it helps, how to use it, and anything to w
   - [Graphify](#graphify)
   - [OmniRoute](#omniroute)
   - [Flint (local coding model)](#flint-local-coding-model)
+- [Desktop assistants](#desktop-assistants)
+  - [Atticus (Mac and Windows)](#atticus-mac-and-windows)
 - [Explaining and documenting](#explaining-and-documenting)
   - [Annotated Illustrations (Ian Xiaohei)](#annotated-illustrations-ian-xiaohei)
 - [Social media, marketing and sales](#social-media-marketing-and-sales)
@@ -96,6 +99,20 @@ Eleven Claude skills for running a YouTube channel, backed by six dependency-fre
 Or copy `skills/yt-*` into `~/.claude/skills/`. Then fill in `templates/voice.md` (copy it to `~/.claude/youtube/voice.md`); every skill reads it.
 
 **Watch out:** It never publishes; you upload. The hook score is a heuristic, not a prediction of views. `/yt-viral` reads public listings only.
+
+### Claude Motion (and Dashboards)
+
+**Link:** <https://claude.com/resources/articles/dashboards-and-motion> · **Type:** Built into Claude (claude.ai) · **Cost:** Beta. Motion: Team and Enterprise plans; Dashboards: paid plans · **Tags:** `motion-graphics` `explainer-video` `animation` `dashboards` `anthropic`
+
+Anthropic's own animation feature, announced October 2026. Describe an explainer (for example "animate how our pricing plans compare for the sales kickoff" or "turn this quarterly report into a 30-second explainer") and Claude builds it as code that animates our text, charts, shapes and images. It plays like a short video, and you download it as an MP4.
+
+**Why it helps:** Most AI video looks like AI video, but this has no generated footage, no AI people and nothing that melts or morphs. Because it's code, you can change just one word, number or timing, either in the editor or by asking Claude, without starting over. Like editing a doc instead of reshooting a film. Good for presentations, onboarding and turning results into short explainers. Pairs with [Prompt Motion](#prompt-motion) for ideas.
+
+**How to use:** On a Team or Enterprise plan, ask Claude for the animation in a normal chat. Enterprise admins must first turn it on under Organization settings → Artifacts. To polish it further, open it in Adobe, Descript, Runway and others.
+
+**Also in the same release, Claude Dashboards:** connect a data source (BigQuery, Snowflake, Databricks, Redshift, ClickHouse) or a CRM like Salesforce, ask a question in plain language, and get a dashboard that stays current. Click any number to see the query behind it.
+
+**Watch out:** Both are in beta. Motion is not on Free or Pro plans. It's built for explaining our own work, not for realistic footage.
 
 ---
 
@@ -368,6 +385,33 @@ A coding model from Recursive, built for agent work (investigating codebases, fi
 - **Hardware is the catch.** `rec` needs an Apple Silicon Mac (M4 Pro/Max or M5 Pro/Max) with at least 48 GB of memory and ~30 GB of disk space. The full checkpoint needs a datacenter GPU (H200/B300). A typical Windows laptop can't run it well. Check our machines before planning around it.
 - Recursive says it needs more guidance than the big closed models: split work into small subtasks with explicit instructions.
 - Benchmark numbers are Recursive's own. Review its changes like any other agent's.
+
+---
+
+## Desktop assistants
+
+### Atticus (Mac and Windows)
+
+**Link (Mac):** <https://github.com/SaarthurR/atticus-mac> · **Link (Windows port):** <https://github.com/FindlayHi/atticus-windows> · **Type:** Voice assistant app · **Cost:** Free (MIT); runs on your Claude plan, no API key · **Tags:** `voice-assistant` `automation` `desktop` `claude-code` `productivity`
+
+Hold a shortcut (<kbd>⌃⌥Space</kbd> on Mac, <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> on Windows), say what you need and let go. It opens apps, arranges windows across displays, finds files by what's inside them, reads the screen ("what's wrong with this code?"), types replies into the app you're in, dictates into any text field and runs routines. Teach it once ("when I say focus mode, close Slack and open my to-do list") and two words run it after that.
+
+**Why it helps:** Like a chief of staff on the computer who never needs telling twice. Simple asks (open an app, move a window) skip the AI and run instantly; learned routines replay without AI too, so they cost nothing.
+
+**How to use:**
+- **Mac** (needs macOS 26 and Claude Code signed in on a Claude plan, or a local model):
+
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/SaarthurR/atticus-mac/main/install.sh | bash
+  ```
+
+- **Windows:** a community port by FindlayHi with the same features plus integrations (Home Assistant, Jellyfin and others). It runs through `claude -p` on a Claude Pro or Max plan. Install steps are in its README.
+
+**Watch out:**
+- Voice is turned into text locally and audio never leaves the computer, but what you ask and screenshots of the screen go to Claude. Be careful with sensitive windows open.
+- Deletes, sends, purchases and system commands ask first, and the reply feature types but doesn't send. Keep those confirmations on.
+- Each ask uses a little of our Claude plan (the Windows port estimates ~0.1¢ each). Anonymous usage counts are on by default; turn them off in Settings.
+- The Windows version is a separate community project, not by the original author.
 
 ---
 
